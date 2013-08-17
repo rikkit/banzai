@@ -1,0 +1,16 @@
+<a name="quick-reply"></a>
+<div id="quick-reply" class="text-centre title-font">	
+	<hgroup>
+	<h3>{L_QUICKREPLY}</h3>
+	</hgroup>
+
+	<form method="post" action="{U_QR_ACTION}" class="centre">
+		<textarea name="message" rows="7" cols="20" tabindex="3"></textarea>
+		<div id="quick-reply-submit">
+			<input class="btnmain" type="submit" accesskey="s" tabindex="6" name="post" value="{L_SUBMIT}" />&nbsp;
+			<input class="btnmain" type="submit" accesskey="f" tabindex="7" name="full_editor" value="{L_FULL_EDITOR}" />
+		</div>
+		{S_FORM_TOKEN}
+		{QR_HIDDEN_FIELDS}
+	</form>
+</div>

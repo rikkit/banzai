@@ -1,0 +1,234 @@
+<!-- INCLUDE overall_header.html -->
+
+<div id="main" class="width-max">
+
+<div class="width-full centre">
+
+<div class="breadcrumbs">
+	<!-- INCLUDE breadcrumbs.html -->
+	</div>
+
+
+<div id="thread-title" class="topic-title text-centre title-font">
+	<hgroup>
+		<h1><a href="{U_VIEW_TOPIC}">{TOPIC_TITLE}</a></h1>
+	</hgroup>
+	<p>{PAGE_NUMBER} // {TOTAL_POSTS}</p>
+</div>
+
+</div>
+
+<ul class="posts width-full centre">
+<!-- IF S_HAS_POLL -->
+	<li class="central-item poll">
+	<table>
+		<td class="row2" colspan="2" align="center"><br clear="all" />
+
+			<form method="post" action="{S_POLL_ACTION}">
+
+			<table cellspacing="0" cellpadding="4" border="0" align="center">
+			<tr>
+				<td align="center"><span class="gen"><b>{POLL_QUESTION}</b></span><br /><span class="gensmall">{L_POLL_LENGTH}</span></td>
+			</tr>
+			<tr>
+				<td align="{S_CONTENT_FLOW_BEGIN}">
+					<table cellspacing="0" cellpadding="2" border="0">
+				<!-- BEGIN poll_option -->
+					<tr>
+					<!-- IF S_CAN_VOTE -->
+						<td>
+							<!-- IF S_IS_MULTI_CHOICE -->
+								<input type="checkbox" class="radio" name="vote_id[]" value="{poll_option.POLL_OPTION_ID}"<!-- IF poll_option.POLL_OPTION_VOTED --> checked="checked"<!-- ENDIF --> />
+							<!-- ELSE -->
+								<input type="radio" class="radio" name="vote_id[]" value="{poll_option.POLL_OPTION_ID}"<!-- IF poll_option.POLL_OPTION_VOTED --> checked="checked"<!-- ENDIF --> />
+							<!-- ENDIF -->
+						</td>
+					<!-- ENDIF -->
+						<td><span class="gen">{poll_option.POLL_OPTION_CAPTION}</span></td>
+						<!-- IF S_DISPLAY_RESULTS -->
+							<td dir="ltr">{POLL_LEFT_CAP_IMG}{poll_option.POLL_OPTION_IMG}{POLL_RIGHT_CAP_IMG}</td>
+							<td class="gen" align="{S_CONTENT_FLOW_END}"><b>&nbsp;{poll_option.POLL_OPTION_PERCENT}&nbsp;</b></td>
+							<td class="gen" align="center">[ {poll_option.POLL_OPTION_RESULT} ]</td>
+							<!-- IF poll_option.POLL_OPTION_VOTED -->
+								<td class="gensmall" valign="top"><b title="{L_POLL_VOTED_OPTION}">x</b></td>
+							<!-- ENDIF -->
+						<!-- ENDIF -->
+					</tr>
+				<!-- END poll_option -->
+					</table>
+				</td>
+			</tr>
+		<!-- IF S_CAN_VOTE -->
+			<tr>
+				<td align="center"><span class="gensmall">{L_MAX_VOTES}</span><br /><br /><input type="submit" name="update" value="{L_SUBMIT_VOTE}" class="btnlite" /></td>
+			</tr>
+		<!-- ENDIF -->
+		<!-- IF S_DISPLAY_RESULTS -->
+			<tr>
+				<td class="gensmall" colspan="4" align="center"><b>{L_TOTAL_VOTES} : {TOTAL_VOTES}</b></td>
+			</tr>
+		<!-- ELSE -->
+			<tr>
+				<td align="center"><span class="gensmall"><b><a href="{U_VIEW_RESULTS}">{L_VIEW_RESULTS}</a></b></span></td>
+			</tr>
+		<!-- ENDIF -->
+			</table>
+			{S_HIDDEN_FIELDS}
+			{S_FORM_TOKEN}
+			</form>
+
+		</td>
+	</tr>
+	</table>
+	</li>
+<!-- ENDIF -->
+
+<!-- BEGIN postrow -->
+	<!-- IF postrow.S_IGNORE_POST -->
+	<li class="post-row">
+		<!-- IF postrow.S_FIRST_UNREAD -->
+		<a name="unread"></a>
+		<!-- ENDIF -->
+		<a name="p{postrow.POST_ID}"></a>
+		{postrow.L_IGNORE_POST}
+	</li>
+	<!-- ELSE -->	
+		<li class="post-row">
+			<!-- IF postrow.S_FIRST_UNREAD -->
+			<a name="unread"></a>
+			<!-- ENDIF -->
+			<a name="p{postrow.POST_ID}"></a>
+			
+			<div class="post-meta">
+				<div class="post-author">
+					<p class="post-author-name"><a href="{ROOT_PATH}memberlist.php?mode=viewprofile&un={postrow.POST_AUTHOR}">{postrow.POST_AUTHOR}</a></p>
+					<!-- IF postrow.CUSTOM_TITLE --> 
+						<p>{postrow.CUSTOM_TITLE}</p>
+					<!-- ENDIF -->
+					<div class="post-author-avatar accent-bg">
+						<a href="{ROOT_PATH}memberlist.php?mode=viewprofile&un={postrow.POST_AUTHOR}"> </a>
+						<!-- IF postrow.POSTER_AVATAR -->{postrow.POSTER_AVATAR}<!-- ENDIF -->
+					</div>
+				</div>
+			
+				<ul class="post-actions">
+					<!-- IF postrow.BUMPED_MESSAGE -->
+						<li class="post-meta-bumped-info">
+							<div class="post-meta-expand-icon"></div>
+							<div class="post-meta-expand-content">
+								<p>{postrow.BUMPED_MESSAGE}</p>
+							</div>
+						</li>
+					<!-- ENDIF -->
+					<!-- IF postrow.EDITED_MESSAGE or postrow.EDIT_REASON -->
+						<li class="post-meta-edit-info">
+							<div class="post-meta-expand-icon"></div>
+							<div class="post-meta-expand-content">
+								<p>{postrow.EDITED_MESSAGE}</p>
+								<!-- IF postrow.EDIT_REASON -->
+									<p>{postrow.EDIT_REASON}</p>
+								<!-- ENDIF -->
+							</div>
+						</li>
+					<!-- ENDIF -->
+					<!-- IF not S_IS_BOT -->
+						<li class="post-meta-moderation">
+							<div class="post-meta-expand-icon"></div>
+							<div class="post-meta-expand-content">
+								<!-- IF postrow.U_REPORT --><a href="{postrow.U_REPORT}">{REPORT_IMG}</a> <!-- ENDIF --> 
+								<!-- IF postrow.U_INFO --><a href="{postrow.U_INFO}">{INFO_IMG}</a> <!-- ENDIF --> 
+								<!-- IF postrow.U_WARN --><a href="{postrow.U_WARN}">{WARN_IMG}</a> <!-- ENDIF --> 
+								<!-- IF postrow.U_DELETE --><a href="{postrow.U_DELETE}">{DELETE_IMG}</a> <!-- ENDIF -->
+								<!-- IF postrow.S_MOD_THANKS --><a href="{postrow.U_CLEAR_LIST_THANKS_POST}">{postrow.DELETE_IMG}</a><!-- ENDIF -->
+							</div>
+						</li>
+						
+						<li class="post-meta-rep-info">
+							<div class="post-meta-expand-icon">
+								<!-- IF not postrow.S_GLOBAL_POST_THANKS and not postrow.S_POST_ANONYMOUS and postrow.S_FORUM_THANKS and S_USER_LOGGED_IN and not postrow.S_IS_OWN_POST and (not postrow.S_ALREADY_THANKED or postrow.S_REMOVE_THANKS) -->
+									<a href="{postrow.THANKS_LINK}" title="{postrow.THANK_ALT}{postrow.POST_AUTHOR}">{postrow.THANK_IMG}</a>
+								<!-- ELSE -->
+									<p>Thanks given by</p>
+								<!-- ENDIF -->
+							</div>
+							<div class="post-meta-expand-content">
+								<p>{postrow.THANK_TEXT}{postrow.POST_AUTHOR_FULL}{postrow.THANK_TEXT_2}</p>
+								<p>{postrow.THANKS}</p>
+							</div>
+						</li>
+						
+						<!-- IF postrow.U_EDIT -->
+							<li class="post-meta-moderation">
+								<div class="post-meta-action">
+									<a href="{postrow.U_EDIT}">{EDIT_IMG}</a>
+								</div>
+							</li>
+						<!-- ENDIF -->
+						
+						<!-- IF postrow.U_QUOTE -->
+							<li class="post-meta-moderation">
+								<div class="post-meta-action">
+									<a href="{postrow.U_QUOTE}">{QUOTE_IMG}</a>
+								</div>
+							</li>
+						<!-- ENDIF -->
+						
+					<!-- ENDIF -->
+				</ul>
+			</div>
+			
+			<div class="post-message width-large">
+				<!-- IF postrow.POST_ICON_IMG -->
+					<img src="{T_ICONS_PATH}{postrow.POST_ICON_IMG}" width="{postrow.POST_ICON_IMG_WIDTH}" height="{postrow.POST_ICON_IMG_HEIGHT}" alt="" title="" />
+				<!-- ENDIF -->
+				<div class="post-message-body">{postrow.MESSAGE}</div>
+				
+				<!-- IF postrow.S_DISPLAY_NOTICE -->
+					<p class="gensmall error">{L_DOWNLOAD_NOTICE}</p>
+				<!-- ENDIF -->
+				
+				<!-- IF postrow.SIGNATURE -->
+					<div class="post-author-signature">{postrow.SIGNATURE}</div>
+				<!-- ENDIF -->
+				
+			</div>
+			
+			<div class="clear"></div>
+			
+		</li>
+	<!-- ENDIF -->
+<!-- END postrow -->
+</ul>
+
+<div class="width-full centre">
+<!-- IF S_QUICK_REPLY -->
+	<!-- INCLUDE quickreply_editor.html -->
+<!-- ENDIF -->
+</div>
+
+</div> <!-- end #main -->
+
+<!-- IF not S_IS_BOT -->
+<div id="mission-control" class="app-bar width-max accent-bg">
+	<div class="width-full centre">
+		<!-- IF S_USER_LOGGED_IN -->
+			<ul class="menu">
+			<!-- IF S_DISPLAY_POST_INFO -->
+				<li><a href="{U_POST_NEW_TOPIC}">{L_POST_NEW_TOPIC}</a></li>
+			<!-- ENDIF -->
+			<!-- IF S_DISPLAY_REPLY_INFO -->
+				<li><a href="#quick-reply">{L_POST_REPLY}</a></li>
+			<!-- ENDIF -->
+			</ul>
+		<!-- ENDIF -->
+		<!-- IF TOTAL_POSTS -->
+		<ul class="menu right">
+		<li><a href="#" onclick="jumpto(); return false;" title="{L_JUMP_TO_PAGE}">{L_GOTO_PAGE}</a></li>		
+		</ul>
+		<!-- ENDIF -->
+	</div>
+	<!--<div id="mission-page-number" class="centre">{PAGE_NUMBER}</div>-->
+<!-- ENDIF -->
+</div>
+
+<!-- INCLUDE overall_footer.html -->

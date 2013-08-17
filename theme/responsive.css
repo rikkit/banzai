@@ -1,0 +1,103 @@
+
+
+/* Mobile  + Win 8 snap*/
+@media screen and (max-width:1000px) {
+	body {
+	min-width: 320px;
+	}
+	
+	#main  {
+		padding: 0;
+	}
+
+		#header {
+			display: none;
+		}
+		
+		.width-full, .width-max {
+			width: 100%;
+		}
+		
+	.app-bar > div {
+		height: auto;
+		overflow: hidden;
+	}
+	
+	.app-bar li, .app-bar .right, .post-meta, .post-message {
+		float: none;
+	}	
+	
+.topic-title {
+	padding: 1em;
+	}
+	
+	.post-meta {
+	width: auto;
+		}
+		
+		iframe {
+			width: 100%;
+		}
+		
+		.post-message.width-large {
+		margin-left: 0;
+		padding-left:0;
+		min-height: 0;
+		}
+		
+		.post-author {
+		height: 2em;
+		margin-bottom: 1em;
+		position: relative;
+		}
+		
+		.post-author-name {
+		position: absolute;
+		left: 2em;
+			line-height: 1.5em;
+			}
+		
+		.post-author-avatar {
+		position:absolute;
+		left: 0;
+		height: 2em;
+		width: 2em;
+		overflow: hidden;
+		}
+	
+		
+		.post-author-avatar img {
+			width: 2em;
+			}
+			
+			li.post-row {
+				padding: 2em 1em;
+			}
+		
+		
+		#quick-reply textarea{
+		min-width: 0;
+		}
+		
+		#footer-about {
+		margin: 0;}
+}
+
+@media screen and (min-width: 1000px) {
+		body{
+			background: #eee url('/images/cover/beach.jpg') no-repeat center center fixed;
+			-webkit-background-size: cover;
+			-moz-background-size: cover;
+			background-size: cover;
+		}
+		
+		#header {
+			height: 10em;
+		}
+}
+
+@media screen and (min-width: 1900px) {	
+		#header {
+			height: 26em;
+		}
+}

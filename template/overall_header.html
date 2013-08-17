@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html dir="{S_CONTENT_DIRECTION}" lang="{S_USER_LANG}" xml:lang="{S_USER_LANG}">
+<head>
+	<meta http-equiv="content-type" content="text/html; charset={S_CONTENT_ENCODING}" />
+	<meta http-equiv="content-language" content="{S_USER_LANG}" />
+
+	{META}
+	<title>{SITENAME} | <!-- IF S_IN_MCP -->{L_MCP} | <!-- ELSEIF S_IN_UCP -->{L_UCP} | <!-- ENDIF -->{PAGE_TITLE}</title>
+
+	<!-- IF S_ENABLE_FEEDS -->
+		<!-- IF S_ENABLE_FEEDS_OVERALL --><link rel="alternate" type="application/atom+xml" title="{L_FEED} - {SITENAME}" href="{U_FEED}" /><!-- ENDIF -->
+		<!-- IF S_ENABLE_FEEDS_NEWS --><link rel="alternate" type="application/atom+xml" title="{L_FEED} - {L_FEED_NEWS}" href="{U_FEED}?mode=news" /><!-- ENDIF -->
+		<!-- IF S_ENABLE_FEEDS_FORUMS --><link rel="alternate" type="application/atom+xml" title="{L_FEED} - {L_ALL_FORUMS}" href="{U_FEED}?mode=forums" /><!-- ENDIF -->
+		<!-- IF S_ENABLE_FEEDS_TOPICS --><link rel="alternate" type="application/atom+xml" title="{L_FEED} - {L_FEED_TOPICS_NEW}" href="{U_FEED}?mode=topics" /><!-- ENDIF -->
+		<!-- IF S_ENABLE_FEEDS_TOPICS_ACTIVE --><link rel="alternate" type="application/atom+xml" title="{L_FEED} - {L_FEED_TOPICS_ACTIVE}" href="{U_FEED}?mode=topics_active" /><!-- ENDIF -->
+		<!-- IF S_ENABLE_FEEDS_FORUM and S_FORUM_ID --><link rel="alternate" type="application/atom+xml" title="{L_FEED} - {L_FORUM} - {FORUM_NAME}" href="{U_FEED}?f={S_FORUM_ID}" /><!-- ENDIF -->
+		<!-- IF S_ENABLE_FEEDS_TOPIC and S_TOPIC_ID --><link rel="alternate" type="application/atom+xml" title="{L_FEED} - {L_TOPIC} - {TOPIC_TITLE}" href="{U_FEED}?f={S_FORUM_ID}&amp;t={S_TOPIC_ID}" /><!-- ENDIF -->
+	<!-- ENDIF -->
+
+	<link rel="stylesheet" media="screen" href="{T_STYLESHEET_LINK}" type="text/css" />	
+	<link rel="stylesheet" media="screen" href="{T_THEME_PATH}/responsive.css" type="text/css" />
+	
+	<link rel="shortcut icon" href="http://4mix.co.uk/favicon.ico" />
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js" ></script>
+	
+	<!--<script src="{T_TEMPLATE_PATH}/js/jquery.autosize-min.js" ></script>-->
+
+	<script type="text/javascript">		
+		function positionAppBars() {
+			// top app bar
+			var jqThis = $(this);
+			var headerHeight = $("#header").outerHeight() - 45;
+			var nav = $("#global");
+			var topScrollDistance = jqThis.scrollTop();
+
+			if (topScrollDistance > headerHeight && nav.css('position') != 'fixed'){
+				nav.css({'position': 'fixed', 'top': '0px', 'z-index': '10'});
+			}
+			else if (topScrollDistance < headerHeight && nav.css('position') != 'absolute'){
+				nav.css({'position': 'absolute', 'top': headerHeight, 'z-index': 'auto'});
+			}
+			
+			// bottom app bar
+			var mission = $("#mission-control");
+			var threshold = $(document).height() - $("#footer").outerHeight() - $("#posts-meta").outerHeight();
+			var windowHeight = $(window).height();
+			var missionPosition = mission.css('position');
+			
+			if (topScrollDistance + windowHeight > threshold && missionPosition != 'absolute') {
+				mission.css({'position': 'static'});
+			}
+			else if (topScrollDistance + windowHeight < threshold && missionPosition != 'fixed'){
+				mission.css({'position': 'fixed', 'bottom': '0px'});
+			}
+		}
+		
+		function isTopAppBarVisible() {
+			if ($("#global").css('position') == 'fixed') {
+				return true;
+			}
+			else {
+				return false;
+			}
+		}
+		
+		function scrollToAnchor(aid){
+		    var aTag = $("a[name='"+ aid +"']");
+			
+			var offset = aTag.offset().top;
+			offset -= $("#global").outerHeight();
+						
+		    $('html,body').animate({scrollTop: offset},'slow');
+		}
+		
+		//$(window).scroll(positionAppBars);
+		$(document).ready(function() {
+			// positionAppBars();
+			
+			$('a').click(function() {
+				window.location.hash = "!";
+			
+				var href = this.href;
+				var hashindex = href.indexOf('#');
+				var hash = null;
+				if (hashindex >= 0) {
+				    hash = href.substring(hashindex + 1);
+				}
+				
+				scrollToAnchor(hash);
+				
+				return false;
+			});
+			
+			// $('#quick-reply textarea').autosize();
+		});
+	</script>
+
+
+</head>
+<body>
+<a name="top"></a>
+
+<div id="header" class="width-max"> </div>
+
+<div id="global" class="app-bar">
+	<div class="width-full centre">
+	<ul class="menu">
+	<li id="brand-logo">
+		<a href="{U_INDEX}">{SITENAME}</a>
+	</li>
+	<li><a href="{U_INDEX}">Forum</a></li>
+	<li><a href="{U_SEARCH_ACTIVE_TOPICS}">{L_SEARCH_ACTIVE_TOPICS}</a></li>
+	<!-- IF S_DISPLAY_SEARCH -->
+	<li><a href="{U_SEARCH}">{L_SEARCH}</a></li>
+	<!-- ENDIF -->
+	<!-- IF not S_IS_BOT --><!-- IF S_DISPLAY_MEMBERLIST -->
+	<li><a href="{U_MEMBERLIST}">{L_MEMBERLIST}</a></li>
+	<!-- ENDIF --><!-- ENDIF -->
+	</ul>
+
+	<ul class="menu right">
+    <!-- IF U_RESTORE_PERMISSIONS --><li><a href="{U_RESTORE_PERMISSIONS}">{L_RESTORE_PERMISSIONS}</a></li><!-- ENDIF -->
+    <!-- IF S_BOARD_DISABLED and S_USER_LOGGED_IN --><li><span style="color: red;">{L_BOARD_DISABLED}</span></li><!-- ENDIF -->
+    <!-- IF not S_IS_BOT -->
+        <!-- IF S_USER_LOGGED_IN -->
+            <li><a href="{ROOT_PATH}memberlist.php?mode=viewprofile&un={S_USERNAME}">{S_USERNAME}</a></li>
+            <!-- ELSE -->
+            <li><a href="{U_LOGIN_LOGOUT}">{L_LOGIN_LOGOUT}</a></li>
+        <!-- ENDIF -->
+    <!-- ENDIF -->
+	</ul>
+	</div>
+</div>
