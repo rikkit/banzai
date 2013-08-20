@@ -21,6 +21,19 @@
 	<link rel="stylesheet" media="screen" href="{T_THEME_PATH}/responsive.css" type="text/css" />
 	
 	<link rel="shortcut icon" href="http://4mix.co.uk/favicon.ico" />
+	<script type="text/javascript">
+		// fix for IE10 on Windows Phone 8 to use correct viewport
+		// see http://trentwalton.com/2013/01/16/windows-phone-8-viewport-fix/
+		if (navigator.userAgent.match(/IEMobile\/10\.0/)) {
+			var msViewportStyle = document.createElement("style");
+			msViewportStyle.appendChild(
+				document.createTextNode("@-ms-viewport{width:auto!important}")
+			);
+			
+			document.getElementsByTagName("head")[0].
+			appendChild(msViewportStyle);
+		}
+	</script>
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js" ></script>
 	
 	<!--<script src="{T_TEMPLATE_PATH}/js/jquery.autosize-min.js" ></script>-->
